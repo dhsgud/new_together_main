@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "717477578053",
+    "firebase_url": "https://regsiter-9cffb-default-rtdb.firebaseio.com",
+    "project_id": "regsiter-9cffb",
+    "storage_bucket": "regsiter-9cffb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717477578053:android:0fee7834fe11496344ea2c",
+        "android_client_info": {
+          "package_name": "com.example.fastcamps_flutter_test1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "717477578053-niti2fropcrcjbgq3jnv7k22pu9eu6a2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fastcamps_flutter_test1",
+            "certificate_hash": "c11606372843ac9d620f6828e4dd582f6157ddf9"
+          }
+        },
+        {
+          "client_id": "717477578053-e531oh72f5cca9uajhg9c7pmmgs9a1pu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbKQ-dQOZ6-8k9MWwqTxMnQw6nzkVShtc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "717477578053-e531oh72f5cca9uajhg9c7pmmgs9a1pu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "717477578053-48jqjsgfo48n5f870et7na0rd1d1p3hm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.together.project-1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717477578053:android:e08bac6c82e2a88744ea2c",
+        "android_client_info": {
+          "package_name": "com.example.together"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "717477578053-1cesg9c4fcg22om77dcddcj55e8767j8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.together",
+            "certificate_hash": "c11606372843ac9d620f6828e4dd582f6157ddf9"
+          }
+        },
+        {
+          "client_id": "717477578053-e531oh72f5cca9uajhg9c7pmmgs9a1pu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbKQ-dQOZ6-8k9MWwqTxMnQw6nzkVShtc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "717477578053-e531oh72f5cca9uajhg9c7pmmgs9a1pu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "717477578053-48jqjsgfo48n5f870et7na0rd1d1p3hm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.together.project-1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

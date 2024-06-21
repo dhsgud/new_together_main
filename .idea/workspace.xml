@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ec51a95f-760f-462a-8c57-851a533b83fd" name="Changes" comment="dd">
+      <change afterPath="$PROJECT_DIR$/lib/bloc/app_bloc.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/bloc/app_event.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/bloc/app_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/TaxiPot/FirebaseService/FirebaseService.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TaxiPot/FirebaseService/FirebaseService.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/TaxiPot/MainTaxiPot.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TaxiPot/MainTaxiPot.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/TaxiPot/TaxiPotCardPage/TaxiPotCardPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TaxiPot/TaxiPotCardPage/TaxiPotCardPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/TaxiPot/TaxiPotCreatePage/NaverLocationPicker/NaverMapLocationPicker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TaxiPot/TaxiPotCreatePage/NaverLocationPicker/NaverMapLocationPicker.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/TaxiPot/TaxiPotCreatePage/TaxiPotCreatePage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TaxiPot/TaxiPotCreatePage/TaxiPotCreatePage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/TaxiPot/TaxiPotSearch/TaxiPotSearch.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/TaxiPot/TaxiPotSearch/TaxiPotSearch.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2aUBSTxVHN3FCw27tkw7i9wZVvL" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/kimdonghan/StudioProjects/Together_main-main&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/Community2" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/assets" />
+      <recent name="$PROJECT_DIR$/lib" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/images/Logo" />
+      <recent name="$PROJECT_DIR$/assets/images/HomeAppBar" />
+      <recent name="$PROJECT_DIR$/assets/images/splash" />
+      <recent name="$PROJECT_DIR$/lib/Community2" />
+      <recent name="$PROJECT_DIR$/lib/Community/UI" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec51a95f-760f-462a-8c57-851a533b83fd" name="Changes" comment="" />
+      <created>1704363276519</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704363276519</updated>
+    </task>
+    <task id="LOCAL-00001" summary="dd">
+      <created>1704472094801</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1704472094801</updated>
+    </task>
+    <task id="LOCAL-00002" summary="dd">
+      <created>1704607276763</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1704607276763</updated>
+    </task>
+    <task id="LOCAL-00003" summary="dd">
+      <created>1704650759953</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1704650759953</updated>
+    </task>
+    <task id="LOCAL-00004" summary="dd">
+      <created>1704713115924</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704713115924</updated>
+    </task>
+    <task id="LOCAL-00005" summary="dd">
+      <created>1704716058910</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1704716058910</updated>
+    </task>
+    <task id="LOCAL-00006" summary="dd">
+      <created>1704717838971</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1704717838971</updated>
+    </task>
+    <task id="LOCAL-00007" summary="dd">
+      <created>1704965305739</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1704965305739</updated>
+    </task>
+    <task id="LOCAL-00008" summary="dd">
+      <created>1704994963596</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1704994963596</updated>
+    </task>
+    <task id="LOCAL-00009" summary="dd">
+      <created>1705236869135</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1705236869135</updated>
+    </task>
+    <task id="LOCAL-00010" summary="dd">
+      <created>1705497204934</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1705497204934</updated>
+    </task>
+    <task id="LOCAL-00011" summary="dd">
+      <created>1705508617591</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1705508617591</updated>
+    </task>
+    <task id="LOCAL-00012" summary="dd">
+      <created>1705509367048</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1705509367048</updated>
+    </task>
+    <task id="LOCAL-00013" summary="dd">
+      <created>1705511813266</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1705511813266</updated>
+    </task>
+    <task id="LOCAL-00014" summary="dd">
+      <created>1705771714905</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1705771714905</updated>
+    </task>
+    <task id="LOCAL-00015" summary="dd">
+      <created>1705847240757</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1705847240757</updated>
+    </task>
+    <task id="LOCAL-00016" summary="dd">
+      <created>1707498326504</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1707498326504</updated>
+    </task>
+    <task id="LOCAL-00017" summary="dd">
+      <created>1707525941736</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1707525941736</updated>
+    </task>
+    <task id="LOCAL-00018" summary="dd">
+      <created>1713106799624</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1713106799624</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="dd" />
+    <option name="LAST_COMMIT_MESSAGE" value="dd" />
+  </component>
+</project>
