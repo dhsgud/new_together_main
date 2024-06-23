@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:together_project_1/TaxiPot/FirebaseService/FirebaseService.dart';
 import 'package:together_project_1/TaxiPot/TaxiPotChat/TaxiPotChatModel.dart';
+import 'package:together_project_1/global.dart';
 
 class TaxiPotChat extends StatefulWidget {
   final String? taxiPotId;
@@ -22,12 +23,20 @@ class _TaxiPotChatState extends State<TaxiPotChat> {
   late final String _currentUserId;
   StreamSubscription<DatabaseEvent>? _messageSubscription;
   String _announcement = '천안 콜밴 이용시 비용을 절감할 수 있습니다!'; // 공지사항 내용
+  int partiCount = 0;
 
   @override
   void initState() {
     super.initState();
     _currentUserId = FirebaseAuth.instance.currentUser!.uid;
     _loadMessages();
+    _updateParticipantsCount();  // 참가자 수 업데이트
+  }
+
+  void _updateParticipantsCount() async {
+    if (widget.taxiPotId != null) {
+      await FirebaseService.updateParticipantsCount(widget.taxiPotId!);
+    }
   }
 
   void _loadMessages() {
@@ -71,7 +80,6 @@ class _TaxiPotChatState extends State<TaxiPotChat> {
     });
   }
 
-
   void _sendMessage(String text) {
     if (text.isNotEmpty && widget.taxiPotId != null) {
       FirebaseService.sendMessage(widget.taxiPotId!, text, _currentUserId);
@@ -98,10 +106,40 @@ class _TaxiPotChatState extends State<TaxiPotChat> {
     );
   }
 
+  void _leaveChatRoom() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('채팅방 나가기'),
+          content: Text('채팅방을 떠나시겠습니까?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('아니오'),
+              onPressed: () {
+                Navigator.of(context).pop(); // 다이얼로그만 닫기
+              },
+            ),
+            TextButton(
+              child: Text('예'),
+              onPressed: () async {
+                await FirebaseService.leaveChatRoom(widget.taxiPotId!, _currentUserId);
+                await FirebaseService.leaveChatRoom2(widget.taxiPotId!, _currentUserId);
+                await FirebaseService.updateParticipantsCount(widget.taxiPotId!); // 채팅방 나갈 때 참가자 수 업데이트
+                Navigator.of(context).pop(); // 다이얼로그 닫기
+                Navigator.of(context).pop(); // 채팅방 화면 닫기
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void dispose() {
     _messageSubscription?.cancel();
+    _updateParticipantsCount();  // 참가자 수 업데이트
     super.dispose();
   }
 
@@ -121,37 +159,7 @@ class _TaxiPotChatState extends State<TaxiPotChat> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.exit_to_app),
-            onPressed: () {
-              // 경고 다이얼로그 표시
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('채팅방 나가기'),
-                    content: Text('채팅방을 떠나시겠습니까?'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: Text('아니오'),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // 다이얼로그만 닫기
-                        },
-                      ),
-                      TextButton(
-                        child: Text('예'),
-                        onPressed: () {
-                          // 채팅방 떠나는 로직 수행
-                          FirebaseService.leaveChatRoom(widget.taxiPotId!, _currentUserId);
-                          FirebaseService.leaveChatRoom2(widget.taxiPotId!, _currentUserId);
-                          FirebaseService.updateParticipantsCount(widget.taxiPotId!);
-                          Navigator.of(context).pop(); // 다이얼로그 닫기
-                          Navigator.of(context).pop(); // 채팅방 화면 닫기
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
+            onPressed: _leaveChatRoom,
           ),
         ],
       ),

@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:together_project_1/HomePage/HomePage.dart';
 import 'package:together_project_1/MyPage/MyPage.dart';
 
@@ -15,7 +16,37 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+  }
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+
+
+
+  Future<void> _handleSignInSignUp(bool isSignIn) async {
+    try {
+      if (isSignIn) {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+        print('로그인 성공');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+      } else {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+        print('계정 생성 성공');
+        _showDialog('회원가입 완료', '회원가입이 완료되었습니다! 다시 로그인해주세요.');
+      }
+    } catch (e) {
+      print('${isSignIn ? '로그인' : '계정 생성'} 실패: $e');
+      _showDialog('오류', '오류가 발생했습니다. 다시 시도해주세요.');
+    }
   }
 
   Future<void> _handleGoogleSignIn() async {
@@ -36,30 +67,6 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
     } catch (e) {
       print('구글 로그인 실패: $e');
-      _showDialog('오류', '오류가 발생했습니다. 다시 시도해주세요.');
-    }
-  }
-
-  Future<void> _handleAppleSignIn() async {
-    try {
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-
-      final oauthCredential = OAuthProvider("apple.com").credential(
-        idToken: appleCredential.identityToken,
-        accessToken: appleCredential.authorizationCode,
-      );
-
-      await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-
-      print('애플 로그인 성공');
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
-    } catch (e) {
-      print('애플 로그인 실패: $e');
       _showDialog('오류', '오류가 발생했습니다. 다시 시도해주세요.');
     }
   }
@@ -98,6 +105,26 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(labelText: '이메일'),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(labelText: '비밀번호'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => _handleSignInSignUp(true),
+              child: Text('로그인'),
+            ),
+            ElevatedButton(
+              onPressed: () => _handleSignInSignUp(false),
+              child: Text('회원가입'),
+            ),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: _handleGoogleSignIn,
               style: ElevatedButton.styleFrom(
@@ -115,23 +142,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(width: 10), // 이미지와 텍스트 사이 간격
                   Text('구글 로그인'),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _handleAppleSignIn,
-              style: ElevatedButton.styleFrom(
-                primary: Colors.black,
-                onPrimary: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.apple, size: 24),
-                  SizedBox(width: 10), // 아이콘과 텍스트 사이 간격
-                  Text('애플 로그인'),
                 ],
               ),
             ),

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -9,8 +8,8 @@ import 'package:together_project_1/TaxiPot/FirebaseService/FirebaseService.dart'
 import 'package:together_project_1/TaxiPot/TaxiPotChat/TaxiPotChat.dart';
 import 'package:together_project_1/TaxiPot/TaxiPotModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:together_project_1/global.dart';
 import 'dart:convert';
-
 import 'package:url_launcher/url_launcher.dart';
 
 const String NAVER_API_KEY = '6f3QQD1TQjiqnePJTnbK1QKprwWP45y66Fg7ahjG';
@@ -27,8 +26,7 @@ class TaxiPotCardPage extends StatefulWidget {
 }
 
 class _TaxiPotCardPageState extends State<TaxiPotCardPage> {
-  final DatabaseReference databaseReference =
-  FirebaseDatabase.instance.reference();
+  final DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
   final String currentUserId = FirebaseAuth.instance.currentUser!.uid;
   String startingPoint = '';
   String destination = '';
@@ -42,22 +40,29 @@ class _TaxiPotCardPageState extends State<TaxiPotCardPage> {
   final int farePerKm = 1000; // km당 추가 요금 예시
   String _estimatedTime = '';
   String _estimatedFare = '';
+  int partiCount = 0;
 
   Future<void> _launchKakaoT() async {
     const kakaoTUrl = 'kakaot://'; // 카카오 T 앱의 커스텀 URL 스키마
-    const kakaoTAndroidStoreUrl =
-        'https://play.google.com/store/apps/details?id=com.kakao.taxi'; // Android 스토어 URL
-    const kakaoTIosStoreUrl =
-        'https://apps.apple.com/app/id981110422'; // iOS 스토어 URL
+    const kakaoTAndroidStoreUrl = 'https://play.google.com/store/apps/details?id=com.kakao.taxi'; // Android 스토어 URL
+    const kakaoTIosStoreUrl = 'https://apps.apple.com/app/id981110422'; // iOS 스토어 URL
 
     if (await canLaunch(kakaoTUrl)) {
       await launch(kakaoTUrl); // 카카오 T 앱 실행
     } else {
       // 카카오 T 앱이 설치되어 있지 않은 경우 스토어로 이동
       if (Platform.isAndroid) {
-        await launch(kakaoTAndroidStoreUrl);
+        if (await canLaunch(kakaoTAndroidStoreUrl)) {
+          await launch(kakaoTAndroidStoreUrl);
+        } else {
+          print("Could not launch $kakaoTAndroidStoreUrl");
+        }
       } else if (Platform.isIOS) {
-        await launch(kakaoTIosStoreUrl);
+        if (await canLaunch(kakaoTIosStoreUrl)) {
+          await launch(kakaoTIosStoreUrl);
+        } else {
+          print("Could not launch $kakaoTIosStoreUrl");
+        }
       }
     }
   }
@@ -66,13 +71,26 @@ class _TaxiPotCardPageState extends State<TaxiPotCardPage> {
   void initState() {
     super.initState();
     _calculateAndDisplayEstimations();
+    _initializeParticipantsCount();
   }
 
-  Future<Map<String, dynamic>> calculateEstimatedTimeAndFare(
-      NLatLng startLatLng, NLatLng endLatLng) async {
+  void _initializeParticipantsCount() async {
+    final DatabaseReference taxiPotRef = databaseReference.child('taxiPots').child(widget.taxiPotKey);
+    DataSnapshot snapshot = await taxiPotRef.child('currentParticipants').get();
+    if (snapshot.exists && snapshot.value is int) {
+      setState(() {
+        currentParticipants = snapshot.value as int;
+      });
+    } else {
+      setState(() {
+        currentParticipants = 0;
+      });
+    }
+  }
+
+  Future<Map<String, dynamic>> calculateEstimatedTimeAndFare(NLatLng startLatLng, NLatLng endLatLng) async {
     var response = await http.get(
-      Uri.parse(
-          'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=${startLatLng.longitude},${startLatLng.latitude}&goal=${endLatLng.longitude},${endLatLng.latitude}&option=taxi'),
+      Uri.parse('https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=${startLatLng.longitude},${startLatLng.latitude}&goal=${endLatLng.longitude},${endLatLng.latitude}&option=taxi'),
       headers: {
         'X-NCP-APIGW-API-KEY-ID': NAVER_CLIENT_ID,
         'X-NCP-APIGW-API-KEY': NAVER_API_KEY,
@@ -84,8 +102,7 @@ class _TaxiPotCardPageState extends State<TaxiPotCardPage> {
       var route = jsonResponse['route'];
       _displayRouteOnMap(route);
       var durationInMillis = route['traoptimal'][0]['summary']['duration']; // 밀리초 단위로 제공되는 duration
-      var distance = route['traoptimal'][0]['summary']['distance'] /
-          1000; // 거리를 km 단위로 변환
+      var distance = route['traoptimal'][0]['summary']['distance'] / 1000; // 거리를 km 단위로 변환
 
       var durationInSeconds = durationInMillis / 1000;
       int totalFare = baseFare + (farePerKm * distance).toInt();
@@ -158,25 +175,19 @@ class _TaxiPotCardPageState extends State<TaxiPotCardPage> {
 
   void _calculateAndDisplayEstimations() async {
     try {
-      NLatLng startLatLng =
-      await convertAddressToLatLng(widget.taxiPot.startingPoint);
-      NLatLng endLatLng =
-      await convertAddressToLatLng(widget.taxiPot.destination);
+      NLatLng startLatLng = await convertAddressToLatLng(widget.taxiPot.startingPoint);
+      NLatLng endLatLng = await convertAddressToLatLng(widget.taxiPot.destination);
 
-      var estimations =
-      await calculateEstimatedTimeAndFare(startLatLng, endLatLng);
+      var estimations = await calculateEstimatedTimeAndFare(startLatLng, endLatLng);
       setState(() {
         _estimatedTime = estimations['estimatedTime'];
         // 참가자 수(maxParticipants)를 기준으로 인당 요금 계산
-        int totalFare =
-        int.parse(estimations['estimatedFare'].split(" ")[1].replaceAll("원,", ""));
-        _estimatedFare =
-        '총 ${totalFare}원, 인당 ${(totalFare / widget.taxiPot.numberOfParticipants).ceil()}원';
+        int totalFare = int.parse(estimations['estimatedFare'].split(" ")[1].replaceAll("원,", ""));
+        _estimatedFare = '총 ${totalFare}원, 인당 ${(totalFare / widget.taxiPot.numberOfParticipants).ceil()}원';
         startingPointLatLng = startLatLng;
       });
       if (_controller != null) {
-        _controller.updateCamera(
-            NCameraUpdate.withParams(target: startingPointLatLng, zoom: 12));
+        _controller.updateCamera(NCameraUpdate.withParams(target: startingPointLatLng, zoom: 12));
       }
     } catch (e) {
       print('Estimation error: $e');
@@ -254,25 +265,23 @@ class _TaxiPotCardPageState extends State<TaxiPotCardPage> {
                       onMapReady: _onMapReady,
                     ),
                   ),
-                  Text('출발지: ${widget.taxiPot.startingPoint}',
-                      style: TextStyle(fontSize: 16)),
+                  Text('출발지: ${widget.taxiPot.startingPoint}', style: TextStyle(fontSize: 16)),
                   SizedBox(height: 8),
-                  Text('목적지: ${widget.taxiPot.destination}',
-                      style: TextStyle(fontSize: 16)),
+                  Text('목적지: ${widget.taxiPot.destination}', style: TextStyle(fontSize: 16)),
                   SizedBox(height: 8),
-                  Text(
-                      '참여 인원: ${widget.taxiPot.currentParticipants}/${widget.taxiPot.numberOfParticipants}',
-                      style: TextStyle(fontSize: 16)),
+                  StreamBuilder<int>(
+                    stream: FirebaseService.getParticipantCount(widget.taxiPotKey),
+                    builder: (context, snapshot) {
+                      int participantsCount = snapshot.data ?? 0;
+                      return Text('참여 인원: $participantsCount/${widget.taxiPot.numberOfParticipants}', style: TextStyle(fontSize: 16));
+                    },
+                  ),
                   SizedBox(height: 8),
                   Text('예상 소요 시간: $_estimatedTime'),
                   SizedBox(height: 8),
                   Text('예상 요금: $_estimatedFare'),
                   SizedBox(height: 8),
-                  Text('출발 시각: ${widget.taxiPot.departureTime}',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black)),
+                  Text('출발 시각: ${widget.taxiPot.departureTime}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black)),
                 ],
               ),
             ),
@@ -287,9 +296,19 @@ class _TaxiPotCardPageState extends State<TaxiPotCardPage> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: FloatingActionButton.extended(
               heroTag: 'chatRoomButtonsreal',
-              onPressed: () {
-                // 기존 채팅방 입장 로직
-                _showJoinChatDialog(context, widget.taxiPotKey);
+              onPressed: () async {
+                String userId = FirebaseAuth.instance.currentUser!.uid;
+                bool isAlreadyJoined = await FirebaseService.isUserAlreadyJoined(widget.taxiPotKey, userId);
+                int currentParticipants = await FirebaseService.getCurrentParticipants(widget.taxiPotKey);
+                print(currentParticipants);
+                print(isAlreadyJoined);
+                if (!isAlreadyJoined && currentParticipants >= widget.taxiPot.numberOfParticipants) {
+                  _showFullRoomAlert(context);
+                } else {
+                  if (mounted) {
+                    _showJoinChatDialog(context, widget.taxiPotKey);
+                  }
+                }
               },
               label: Text('채팅방 입장'),
               icon: Icon(Icons.chat),
@@ -323,64 +342,48 @@ class _TaxiPotCardPageState extends State<TaxiPotCardPage> {
   void _onMapReady(NaverMapController controller) {
     _controller = controller;
     if (startingPointLatLng != null) {
-      _controller.updateCamera(
-          NCameraUpdate.withParams(target: startingPointLatLng, zoom: 12));
+      _controller.updateCamera(NCameraUpdate.withParams(target: startingPointLatLng, zoom: 12));
     }
   }
 
   Future<void> _showJoinChatDialog(BuildContext context, String roomId) async {
-    int currentParticipants = widget.taxiPot.currentParticipants;
-    int maxParticipants = widget.taxiPot.numberOfParticipants;
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    bool isAlreadyJoined = await FirebaseService.isUserAlreadyJoined(
-        roomId, userId);
-
-    if (!isAlreadyJoined && currentParticipants >= maxParticipants) {
-      _showFullRoomAlert(context);
-      return;
-    }
-
-    if (!isAlreadyJoined) {
-      // 사용자가 아직 참가하지 않았고, 방에 여유가 있는 경우
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('채팅방 입장'),
-            content: Text('채팅방에 입장하시겠습니까?'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('취소'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              TextButton(
-                child: Text('확인'),
-                onPressed: () async {
-                  FirebaseService.joinChatRoom2(roomId, userId);
-                  FirebaseService.joinChatRoom(roomId, userId);
-                  FirebaseService.updateParticipantsCount(roomId);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('채팅방 입장'),
+          content: Text('채팅방에 입장하시겠습니까?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('취소'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: Text('확인'),
+              onPressed: () async {
+                await FirebaseService.joinChatRoom2(roomId, userId);
+                await FirebaseService.joinChatRoom(roomId, userId);
+                if (!mounted) return; // context가 유효한지 확인
+                await FirebaseService.updateParticipantsCount(roomId); // 참가자 수 업데이트
+                if (mounted) {
                   Navigator.of(context).pop();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => TaxiPotChat(taxiPotId: roomId),
                     ),
-                  ).then((_) => setState(() {}));
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      // 이미 참여한 사용자는 바로 채팅방으로 이동
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => TaxiPotChat(taxiPotId: roomId)),
-      ).then((_) => setState(() {}));
-    }
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
+
 
   void _showFullRoomAlert(BuildContext context) {
     showDialog(
