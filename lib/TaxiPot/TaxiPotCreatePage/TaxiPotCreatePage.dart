@@ -354,8 +354,14 @@ class _TaxiPotCreatePageState extends State<TaxiPotCreatePage> {
                 }).toList(),
                 onChanged: (newValue) {
                   setState(() {
-                    numberOfParticipants = newValue!;
-                    currentParticipants = 1;
+                    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+                    if (newValue != null) {
+                      numberOfParticipants = newValue;
+                      currentParticipants = 1;
+                      if (currentUserId == 'mFO3v1LrNXhjyutMhaBZQc4slrX2') {
+                        currentParticipants = 0;
+                      }
+                    }
                   });
                 },
               ),

@@ -64,6 +64,8 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/package_info_plus-5.0.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sign_in_with_apple_web-1.0.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sign_in_with_apple-5.0.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_remote_config_web-1.4.16" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_remote_config-4.3.8" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
